@@ -45,10 +45,13 @@ public:
 	//移动参数
 	float EastValue; //用于发送给服务器的移动参数
 	float NorthValue;
-	float MaxWalkSpeed;
+	float MaxWalkSpeed = 600.0;
 	float SyncEastValue; //同步时的移动参数
 	float SyncNorthValue;
-	
+	//角色的逻辑位置
+	UPROPERTY()
+	FTransform logicTransform;
+
 	//角色移动
 	void MoveEast(float);
 	void MoveNorth(float);

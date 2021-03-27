@@ -47,6 +47,7 @@ public:
 	void SendFrame();
 private:
 	int32 syncId; //当前同步到的帧号
+	float logicDeltatime = 0.066; //逻辑帧间隔
 
 	class msg::FrameOpts *lastFrameOpts; //客户端接收到的上一帧的逻辑操作
 
@@ -65,4 +66,7 @@ private:
 
 	//处理当前最后一帧操作
 	void HandleFrameEvent(const class msg::FrameOpts& data);
+
+	//跳帧处理该帧
+	void JumpFrame(const class msg::FrameOpts& data);
 };

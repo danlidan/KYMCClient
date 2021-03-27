@@ -5,6 +5,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
+#include "Components/SceneComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Engine/EngineTypes.h"
+#include "GameFramework/Actor.h"
 
 // Sets default values
 AOriginCharacter::AOriginCharacter()
@@ -43,6 +47,8 @@ void AOriginCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//初始逻辑位置同步
+	logicTransform = GetTransform();
 }
 
 // Called every frame
@@ -62,12 +68,14 @@ void AOriginCharacter::Tick(float DeltaTime)
 		}
 	}
 
-	//监听移动
+	//监听移动,移速为600.0
+	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, GetTransform().ToString());
+
 	FVector Direction1(1, 0, 0);
-	AddActorLocalOffset(Direction1 * DeltaTime * SyncEastValue * 600.0, true);
+	AddActorLocalOffset(Direction1 * DeltaTime * SyncEastValue * MaxWalkSpeed, true);
 
 	FVector Direction2(0, -1, 0);
-	AddActorLocalOffset(Direction2 * DeltaTime * SyncNorthValue * 600.0, true);
+	AddActorLocalOffset(Direction2 * DeltaTime * SyncNorthValue * MaxWalkSpeed, true);
 }
 
 // Called to bind functionality to input

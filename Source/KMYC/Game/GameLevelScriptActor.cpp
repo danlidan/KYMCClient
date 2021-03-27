@@ -10,6 +10,8 @@
 #include "SocketSubsystem.h"
 #include "../UDPSocket.h"
 #include "../Msg/protoId.pb.h"
+#include "GameFramework/Actor.h"
+#include "Components/CapsuleComponent.h"
 
 void AGameLevelScriptActor::BeginPlay()
 {
@@ -54,6 +56,11 @@ void AGameLevelScriptActor::BeginPlay()
 		players[i]->playerId = i;
 	}
 	//控制权交给当前玩家
+	for (int i = 0; i < playerNum; ++i) {
+		GetWorld()->GetFirstPlayerController()->Possess(players[i]);
+		GetWorld()->GetFirstPlayerController()->UnPossess();
+	}
+
 	GetWorld()->GetFirstPlayerController()->Possess(players[myPlayerId]);
 
 	//todo:发送帧0，通知udp地址
@@ -146,10 +153,14 @@ void AGameLevelScriptActor::HandleFrames(const std::string& message)
 	}
 
 	//todo接受从syncid+1到frameid-1的操作
+	for (int i = 0; i < data.unsyncframes_size() - 1; ++i) {
+		auto tmpFrame = data.unsyncframes(i);
+		if (tmpFrame.frameid() >= syncId+1 && tmpFrame.frameid() < data.frameid()) {
+			JumpFrame(data.unsyncframes(i));
+		}
+	}
 
-
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("recv frame id %d syncId %d"), data.frameid(), syncId));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("recv frame id %d syncId %d"), data.frameid(), syncId));
 	syncId = data.frameid();
 
 
@@ -168,7 +179,33 @@ void AGameLevelScriptActor::HandleFrames(const std::string& message)
 
 void AGameLevelScriptActor::SyncLastFrame(const class msg::FrameOpts& data)
 {
+	//所有玩家的输入进行数据同步
+	for (int i = 0; i < data.opts_size(); ++i) {
+		msg::OptionEvent opt = data.opts(i);
+		switch (opt.opttype()) {
+		case msg::OptionType::MoveId:
+			//对角色的移动进行同步
+			FVector EastDirection(1, 0, 0);
+			FVector NorthDirection(0, -1, 0);
+			FVector DownDirection(0, 0, -1);
+			if (opt.playerid() < playerNum && players[opt.playerid()]) {
+				AOriginCharacter* tmpPlayer = players[opt.playerid()];
+				
+				if (data.frameid() > 0) {
+					tmpPlayer->SetActorTransform(tmpPlayer->logicTransform);
 
+					FVector MoveDir = EastDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.eastvalue() + NorthDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.northvalue();
+					tmpPlayer->AddActorLocalOffset(MoveDir, true);
+					tmpPlayer->logicTransform = tmpPlayer->GetTransform();
+				}
+				else {
+					tmpPlayer->logicTransform = tmpPlayer->GetTransform();
+				}
+				
+			}
+			break;
+		}
+	}
 }
 
 void AGameLevelScriptActor::HandleFrameEvent(const class msg::FrameOpts& data)
@@ -184,6 +221,31 @@ void AGameLevelScriptActor::HandleFrameEvent(const class msg::FrameOpts& data)
 				AOriginCharacter* tmpPlayer = players[opt.playerid()];
 				tmpPlayer->SyncEastValue = opt.eastvalue();
 				tmpPlayer->SyncNorthValue = opt.northvalue();
+			}
+			break;
+		}
+	}
+}
+
+void AGameLevelScriptActor::JumpFrame(const class msg::FrameOpts& data)
+{
+	//所有玩家的输入进行数据同步
+	for (int i = 0; i < data.opts_size(); ++i) {
+		msg::OptionEvent opt = data.opts(i);
+		switch (opt.opttype()) {
+		case msg::OptionType::MoveId:
+			//对角色的移动进行同步
+			FVector EastDirection(1, 0, 0);
+			FVector NorthDirection(0, -1, 0);
+			FVector DownDirection(0, 0, -1);
+			if (opt.playerid() < playerNum && players[opt.playerid()]) {
+				AOriginCharacter* tmpPlayer = players[opt.playerid()];
+
+				tmpPlayer->SetActorTransform(tmpPlayer->logicTransform);
+				FVector MoveDir = EastDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.eastvalue() + NorthDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.northvalue();
+				tmpPlayer->AddActorLocalOffset(MoveDir, true);
+				tmpPlayer->logicTransform = tmpPlayer->GetTransform();
+
 			}
 			break;
 		}
