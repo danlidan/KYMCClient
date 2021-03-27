@@ -31,7 +31,6 @@ AOriginCharacter::AOriginCharacter()
 	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
 	CursorToWorld->SetupAttachment(RootComponent);
 	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
-
 }
 
 AOriginCharacter::AOriginCharacter(FString &n, int32 r, int32 id): name(n), rank(r), playerId(id)
@@ -62,6 +61,13 @@ void AOriginCharacter::Tick(float DeltaTime)
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	}
+
+	//¼àÌýÒÆ¶¯
+	FVector Direction1(1, 0, 0);
+	AddActorLocalOffset(Direction1 * DeltaTime * SyncEastValue * 600.0, true);
+
+	FVector Direction2(0, -1, 0);
+	AddActorLocalOffset(Direction2 * DeltaTime * SyncNorthValue * 600.0, true);
 }
 
 // Called to bind functionality to input
@@ -76,13 +82,11 @@ void AOriginCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void AOriginCharacter::MoveEast(float value)
 {
-	FVector Direction(1, 0, 0);
-	AddMovementInput(Direction, value);
+	EastValue = value;
 }
 
 void AOriginCharacter::MoveNorth(float value)
 {
-	FVector Direction(0, -1, 0);
-	AddMovementInput(Direction, value);
+	NorthValue = value;
 }
 

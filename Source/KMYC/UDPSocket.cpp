@@ -17,6 +17,7 @@ bool UUDPSocket::startUDPsocket(const FString& localIP, const FString& remoteIP,
 		.AsReusable()
 		.WithBroadcast()/////////////¹ã²¥  
 		.WithSendBufferSize(2 * 1024 * 1024)
+		.WithReceiveBufferSize(2 * 1024 * 1024)
 		//.BoundToEndpoint(Endpoint)  
 		;
 	if (UdpSocket) {
@@ -40,7 +41,7 @@ void UUDPSocket::SendMsg(std::string msgSend)
 
 void UUDPSocket::Recv(std::string& res)
 {
-	int32 BufferSize = 2048;
+	int32 BufferSize = 1048576;
 	uint32 size = 0;
 
 	if (UdpSocket && UdpSocket->HasPendingData(size)) {
@@ -57,7 +58,7 @@ void UUDPSocket::Recv(std::string& res)
 			for (int i = 0; i < read; ++i) tmp[i] = ansiiData[i];
 			res = tmp;
 
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("recv udp data len %d"), res.length()));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("recv udp data len %d"), res.length()));
 		}
 	}
 

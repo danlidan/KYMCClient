@@ -315,6 +315,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::MatchRsp, playernum_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::MatchRsp, myplayerid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::MatchRsp, roomid_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::MatchRsp, players_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::MatchCancelReq, _internal_metadata_),
@@ -336,8 +337,8 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 28, -1, sizeof(::msg::MatchReq)},
   { 34, -1, sizeof(::msg::playerInfoBegin)},
   { 42, -1, sizeof(::msg::MatchRsp)},
-  { 50, -1, sizeof(::msg::MatchCancelReq)},
-  { 55, -1, sizeof(::msg::MatchCancelRsp)},
+  { 51, -1, sizeof(::msg::MatchCancelReq)},
+  { 56, -1, sizeof(::msg::MatchCancelRsp)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -381,13 +382,14 @@ void AddDescriptorsImpl() {
       "\022\014\n\004name\030\002 \001(\t\022\014\n\004rank\030\003 \001(\005\"\030\n\010MatchReq"
       "\022\014\n\004type\030\001 \001(\005\"\?\n\017playerInfoBegin\022\020\n\010pla"
       "yerId\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\014\n\004rank\030\003 \001(\005\""
-      "X\n\010MatchRsp\022\021\n\tplayerNum\030\001 \001(\005\022\022\n\nmyPlay"
-      "erId\030\002 \001(\005\022%\n\007players\030\003 \003(\0132\024.msg.player"
-      "InfoBegin\"\020\n\016MatchCancelReq\"!\n\016MatchCanc"
-      "elRsp\022\017\n\007success\030\001 \001(\010b\006proto3"
+      "h\n\010MatchRsp\022\021\n\tplayerNum\030\001 \001(\005\022\022\n\nmyPlay"
+      "erId\030\002 \001(\005\022\016\n\006roomId\030\003 \001(\005\022%\n\007players\030\004 "
+      "\003(\0132\024.msg.playerInfoBegin\"\020\n\016MatchCancel"
+      "Req\"!\n\016MatchCancelRsp\022\017\n\007success\030\001 \001(\010b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 430);
+      descriptor, 446);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "log.proto", &protobuf_RegisterTypes);
 }
@@ -2184,6 +2186,7 @@ void MatchRsp::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int MatchRsp::kPlayerNumFieldNumber;
 const int MatchRsp::kMyPlayerIdFieldNumber;
+const int MatchRsp::kRoomIdFieldNumber;
 const int MatchRsp::kPlayersFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -2202,15 +2205,15 @@ MatchRsp::MatchRsp(const MatchRsp& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&playernum_, &from.playernum_,
-    static_cast<size_t>(reinterpret_cast<char*>(&myplayerid_) -
-    reinterpret_cast<char*>(&playernum_)) + sizeof(myplayerid_));
+    static_cast<size_t>(reinterpret_cast<char*>(&roomid_) -
+    reinterpret_cast<char*>(&playernum_)) + sizeof(roomid_));
   // @@protoc_insertion_point(copy_constructor:msg.MatchRsp)
 }
 
 void MatchRsp::SharedCtor() {
   ::memset(&playernum_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&myplayerid_) -
-      reinterpret_cast<char*>(&playernum_)) + sizeof(myplayerid_));
+      reinterpret_cast<char*>(&roomid_) -
+      reinterpret_cast<char*>(&playernum_)) + sizeof(roomid_));
   _cached_size_ = 0;
 }
 
@@ -2253,8 +2256,8 @@ void MatchRsp::Clear() {
 
   players_.Clear();
   ::memset(&playernum_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&myplayerid_) -
-      reinterpret_cast<char*>(&playernum_)) + sizeof(myplayerid_));
+      reinterpret_cast<char*>(&roomid_) -
+      reinterpret_cast<char*>(&playernum_)) + sizeof(roomid_));
   _internal_metadata_.Clear();
 }
 
@@ -2296,10 +2299,24 @@ bool MatchRsp::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .msg.playerInfoBegin players = 3;
+      // int32 roomId = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &roomid_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // repeated .msg.playerInfoBegin players = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_players()));
         } else {
           goto handle_unusual;
@@ -2343,11 +2360,16 @@ void MatchRsp::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->myplayerid(), output);
   }
 
-  // repeated .msg.playerInfoBegin players = 3;
+  // int32 roomId = 3;
+  if (this->roomid() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->roomid(), output);
+  }
+
+  // repeated .msg.playerInfoBegin players = 4;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->players_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->players(static_cast<int>(i)), output);
+      4, this->players(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2374,12 +2396,17 @@ void MatchRsp::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->myplayerid(), target);
   }
 
-  // repeated .msg.playerInfoBegin players = 3;
+  // int32 roomId = 3;
+  if (this->roomid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->roomid(), target);
+  }
+
+  // repeated .msg.playerInfoBegin players = 4;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->players_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        3, this->players(static_cast<int>(i)), deterministic, target);
+        4, this->players(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2399,7 +2426,7 @@ size_t MatchRsp::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .msg.playerInfoBegin players = 3;
+  // repeated .msg.playerInfoBegin players = 4;
   {
     unsigned int count = static_cast<unsigned int>(this->players_size());
     total_size += 1UL * count;
@@ -2422,6 +2449,13 @@ size_t MatchRsp::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->myplayerid());
+  }
+
+  // int32 roomId = 3;
+  if (this->roomid() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->roomid());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -2460,6 +2494,9 @@ void MatchRsp::MergeFrom(const MatchRsp& from) {
   if (from.myplayerid() != 0) {
     set_myplayerid(from.myplayerid());
   }
+  if (from.roomid() != 0) {
+    set_roomid(from.roomid());
+  }
 }
 
 void MatchRsp::CopyFrom(const ::google::protobuf::Message& from) {
@@ -2489,6 +2526,7 @@ void MatchRsp::InternalSwap(MatchRsp* other) {
   players_.InternalSwap(&other->players_);
   swap(playernum_, other->playernum_);
   swap(myplayerid_, other->myplayerid_);
+  swap(roomid_, other->roomid_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }

@@ -109,7 +109,7 @@ void AUDPRecive::Recv(std::string& res)
 			for (int i = 0; i < read; ++i) tmp[i] = ansiiData[i];
 			res = tmp;
 
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("recv udp data len %d"), res.length()));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("recv udp data len %d"), res.length()));
 		}
 	}
 

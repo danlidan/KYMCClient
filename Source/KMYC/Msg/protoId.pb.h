@@ -75,6 +75,26 @@ inline bool ProtoId_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<ProtoId>(
     ProtoId_descriptor(), name, value);
 }
+enum OptionType {
+  MoveId = 0,
+  OptionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  OptionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool OptionType_IsValid(int value);
+const OptionType OptionType_MIN = MoveId;
+const OptionType OptionType_MAX = MoveId;
+const int OptionType_ARRAYSIZE = OptionType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* OptionType_descriptor();
+inline const ::std::string& OptionType_Name(OptionType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    OptionType_descriptor(), value);
+}
+inline bool OptionType_Parse(
+    const ::std::string& name, OptionType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<OptionType>(
+    OptionType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -102,6 +122,11 @@ template <> struct is_proto_enum< ::msg::ProtoId> : ::google::protobuf::internal
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::msg::ProtoId>() {
   return ::msg::ProtoId_descriptor();
+}
+template <> struct is_proto_enum< ::msg::OptionType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::msg::OptionType>() {
+  return ::msg::OptionType_descriptor();
 }
 
 }  // namespace protobuf

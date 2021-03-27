@@ -42,7 +42,13 @@ public:
 	int32 rank;
 	//一局游戏中的id
 	int32 playerId;
-
+	//移动参数
+	float EastValue; //用于发送给服务器的移动参数
+	float NorthValue;
+	float MaxWalkSpeed;
+	float SyncEastValue; //同步时的移动参数
+	float SyncNorthValue;
+	
 	//角色移动
 	void MoveEast(float);
 	void MoveNorth(float);

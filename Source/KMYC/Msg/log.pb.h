@@ -871,10 +871,10 @@ class MatchRsp : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // repeated .msg.playerInfoBegin players = 3;
+  // repeated .msg.playerInfoBegin players = 4;
   int players_size() const;
   void clear_players();
-  static const int kPlayersFieldNumber = 3;
+  static const int kPlayersFieldNumber = 4;
   const ::msg::playerInfoBegin& players(int index) const;
   ::msg::playerInfoBegin* mutable_players(int index);
   ::msg::playerInfoBegin* add_players();
@@ -895,6 +895,12 @@ class MatchRsp : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::int32 myplayerid() const;
   void set_myplayerid(::google::protobuf::int32 value);
 
+  // int32 roomId = 3;
+  void clear_roomid();
+  static const int kRoomIdFieldNumber = 3;
+  ::google::protobuf::int32 roomid() const;
+  void set_roomid(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:msg.MatchRsp)
  private:
 
@@ -902,6 +908,7 @@ class MatchRsp : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedPtrField< ::msg::playerInfoBegin > players_;
   ::google::protobuf::int32 playernum_;
   ::google::protobuf::int32 myplayerid_;
+  ::google::protobuf::int32 roomid_;
   mutable int _cached_size_;
   friend struct ::protobuf_log_2eproto::TableStruct;
   friend void ::protobuf_log_2eproto::InitDefaultsMatchRspImpl();
@@ -1562,7 +1569,21 @@ inline void MatchRsp::set_myplayerid(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:msg.MatchRsp.myPlayerId)
 }
 
-// repeated .msg.playerInfoBegin players = 3;
+// int32 roomId = 3;
+inline void MatchRsp::clear_roomid() {
+  roomid_ = 0;
+}
+inline ::google::protobuf::int32 MatchRsp::roomid() const {
+  // @@protoc_insertion_point(field_get:msg.MatchRsp.roomId)
+  return roomid_;
+}
+inline void MatchRsp::set_roomid(::google::protobuf::int32 value) {
+  
+  roomid_ = value;
+  // @@protoc_insertion_point(field_set:msg.MatchRsp.roomId)
+}
+
+// repeated .msg.playerInfoBegin players = 4;
 inline int MatchRsp::players_size() const {
   return players_.size();
 }

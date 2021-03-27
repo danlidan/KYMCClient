@@ -26,6 +26,7 @@ public:
 	//游戏相关内容
 	int32 playerNum; //游戏人数
 	int32 myPlayerId; //该客户端玩家id
+	int32 roomId = 0; //房间号id
 	std::vector<std::string> playerName;
 	std::vector<int32> playerRank;
 };

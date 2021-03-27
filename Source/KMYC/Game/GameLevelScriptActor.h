@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/LevelScriptActor.h"
+#include "../Msg/game.pb.h"
 #include "GameLevelScriptActor.generated.h"
 
 /**
@@ -33,6 +34,7 @@ public:
 
 	int32 playerNum; //玩家数
 	int32 myPlayerId; //该玩家的id
+	int32 roomId; //房间号
 
 	UPROPERTY()
 	TArray<class AOriginCharacter*> players; //指向每个玩家
@@ -42,15 +44,25 @@ public:
 	TSubclassOf<class AOriginCharacter> OriginCharClass;
 
 	//帧发送
-	void SendFrame(const std::string& testInfo);
+	void SendFrame();
 private:
+	int32 syncId; //当前同步到的帧号
+
+	class msg::FrameOpts *lastFrameOpts; //客户端接收到的上一帧的逻辑操作
+
 	std::string Int32ToStr16(int32 val);
 
-	int32 Str16ToInt32(std::string s);
+	int32 Str16ToInt32(const std::string& s);
 
 	//每帧的消息接收
 	void RecvMsg();
 
 	//处理消息
 	void HandleFrames(const std::string& message);
+
+	//处理上一帧操作
+	void SyncLastFrame(const class msg::FrameOpts& data);
+
+	//处理当前最后一帧操作
+	void HandleFrameEvent(const class msg::FrameOpts& data);
 };

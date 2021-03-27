@@ -180,6 +180,7 @@ void ALogin_LevelScriptActor::HandleMatchRsp(std::string message)
 	//初始化gameInstance中的内容
 	GInstance->playerNum = data.playernum();
 	GInstance->myPlayerId = data.myplayerid();
+	GInstance->roomId = data.roomid();
 	GInstance->playerName.clear();
 	GInstance->playerName = std::vector<std::string>(GInstance->playerNum);
 	GInstance->playerRank.clear();
@@ -188,8 +189,10 @@ void ALogin_LevelScriptActor::HandleMatchRsp(std::string message)
 	for (int i = 0; i < GInstance->playerNum; ++i) {
 		GInstance->playerName[i] = data.players(i).name();
 		GInstance->playerRank[i] = data.players(i).rank();
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString(GInstance->playerName[i].c_str()) + FString::Printf(TEXT(" %d begin game"), GInstance->playerRank[i]));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString(GInstance->playerName[i].c_str()) + FString::Printf(TEXT(" %d begin game"), GInstance->playerRank[i]));
 	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("roomid %d"), GInstance->roomId));
 	//切换到游戏
 	ChangeToGameScript();
 }
