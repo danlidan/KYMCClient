@@ -180,6 +180,8 @@ void AGameLevelScriptActor::HandleFrames(const std::string& message)
 void AGameLevelScriptActor::SyncLastFrame(const class msg::FrameOpts& data)
 {
 	//所有玩家的输入进行数据同步
+
+	//首先同步位置和旋转
 	for (int i = 0; i < data.opts_size(); ++i) {
 		msg::OptionEvent opt = data.opts(i);
 		switch (opt.opttype()) {
@@ -223,6 +225,14 @@ void AGameLevelScriptActor::HandleFrameEvent(const class msg::FrameOpts& data)
 				AOriginCharacter* tmpPlayer = players[opt.playerid()];
 				tmpPlayer->SyncEastValue = opt.eastvalue();
 				tmpPlayer->SyncNorthValue = opt.northvalue();
+				//动画
+				if (tmpPlayer->SyncEastValue != 0.0 || tmpPlayer->SyncNorthValue != 0.0) {
+					tmpPlayer->curSpeed = tmpPlayer->MaxWalkSpeed;
+				}
+				else {
+					tmpPlayer->curSpeed = 0.0;
+				}
+				tmpPlayer->curDirectionVec = EastDirection * tmpPlayer->SyncEastValue + NorthDirection * tmpPlayer->SyncNorthValue;
 			}
 			break;
 		}
@@ -232,6 +242,8 @@ void AGameLevelScriptActor::HandleFrameEvent(const class msg::FrameOpts& data)
 void AGameLevelScriptActor::JumpFrame(const class msg::FrameOpts& data)
 {
 	//所有玩家的输入进行数据同步
+
+	//首先同步位置和旋转
 	for (int i = 0; i < data.opts_size(); ++i) {
 		msg::OptionEvent opt = data.opts(i);
 		switch (opt.opttype()) {
@@ -243,11 +255,17 @@ void AGameLevelScriptActor::JumpFrame(const class msg::FrameOpts& data)
 			if (opt.playerid() < playerNum && players[opt.playerid()]) {
 				AOriginCharacter* tmpPlayer = players[opt.playerid()];
 
-				tmpPlayer->SetActorTransform(tmpPlayer->logicTransform);
-				FVector MoveDir = EastDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.eastvalue() + NorthDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.northvalue();
-				tmpPlayer->AddActorLocalOffset(MoveDir, true);
-				tmpPlayer->logicTransform = tmpPlayer->GetTransform();
-
+				if (data.frameid() > 0) {
+					tmpPlayer->SetActorTransform(tmpPlayer->logicTransform);
+					FVector MoveDir = EastDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.eastvalue() + NorthDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.northvalue();
+					tmpPlayer->AddActorLocalOffset(MoveDir, true);
+					tmpPlayer->logicTransform = tmpPlayer->GetTransform();
+					//同步旋转
+					tmpPlayer->GetMesh()->SetRelativeRotation(FRotator(0, opt.charrotattion(), 0));
+				}
+				else {
+					tmpPlayer->logicTransform = tmpPlayer->GetTransform();
+				}
 			}
 			break;
 		}

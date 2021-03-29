@@ -25,8 +25,9 @@ AOriginCharacter::AOriginCharacter()
 	SpringArm->SetupAttachment(RootComponent);
 	// Don't want arm to rotate when character does
 	SpringArm->SetUsingAbsoluteRotation(true);
-	SpringArm->SetRelativeLocation(FVector(0, 955, 1580));
+	SpringArm->SetRelativeLocation(FVector(0, 105.0, 108.0));
 	SpringArm->SetRelativeRotation(FRotator(-60, -90, 0));
+	SpringArm->TargetArmLength = 1800.0;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
@@ -72,6 +73,7 @@ void AOriginCharacter::Tick(float DeltaTime)
 	//¼àÌýÒÆ¶¯,ÒÆËÙÎª600.0
 	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, GetTransform().ToString());
 	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, GetMesh()->GetRelativeRotation().ToString());
+	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, FString::Printf(TEXT("%f"), curSpeed) + curDirectionVec.ToString());
 
 	FVector Direction1(1, 0, 0);
 	AddActorLocalOffset(Direction1 * DeltaTime * SyncEastValue * MaxWalkSpeed, true);

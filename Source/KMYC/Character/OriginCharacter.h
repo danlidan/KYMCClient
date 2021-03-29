@@ -20,7 +20,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class USpringArmComponent *SpringArm;
 
 	UPROPERTY(EditAnywhere)
@@ -51,6 +51,13 @@ public:
 	//角色的逻辑位置
 	UPROPERTY()
 	FTransform logicTransform;
+
+	//角色的当前速度(用于播放动画)和当前速度向量
+	UPROPERTY(BlueprintReadOnly)
+	float curSpeed = 0.0;
+	UPROPERTY(BlueprintReadOnly)
+	FVector curDirectionVec = {0, 0, 0};
+
 
 	//角色移动
 	void MoveEast(float);
