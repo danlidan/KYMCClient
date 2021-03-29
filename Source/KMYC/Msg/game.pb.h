@@ -294,6 +294,12 @@ class OptionEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
   float northvalue() const;
   void set_northvalue(float value);
 
+  // float charRotattion = 5;
+  void clear_charrotattion();
+  static const int kCharRotattionFieldNumber = 5;
+  float charrotattion() const;
+  void set_charrotattion(float value);
+
   // @@protoc_insertion_point(class_scope:msg.OptionEvent)
  private:
 
@@ -302,6 +308,7 @@ class OptionEvent : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::int32 opttype_;
   float eastvalue_;
   float northvalue_;
+  float charrotattion_;
   mutable int _cached_size_;
   friend struct ::protobuf_game_2eproto::TableStruct;
   friend void ::protobuf_game_2eproto::InitDefaultsOptionEventImpl();
@@ -778,6 +785,20 @@ inline void OptionEvent::set_northvalue(float value) {
   
   northvalue_ = value;
   // @@protoc_insertion_point(field_set:msg.OptionEvent.northValue)
+}
+
+// float charRotattion = 5;
+inline void OptionEvent::clear_charrotattion() {
+  charrotattion_ = 0;
+}
+inline float OptionEvent::charrotattion() const {
+  // @@protoc_insertion_point(field_get:msg.OptionEvent.charRotattion)
+  return charrotattion_;
+}
+inline void OptionEvent::set_charrotattion(float value) {
+  
+  charrotattion_ = value;
+  // @@protoc_insertion_point(field_set:msg.OptionEvent.charRotattion)
 }
 
 // -------------------------------------------------------------------

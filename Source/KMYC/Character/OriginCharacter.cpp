@@ -9,6 +9,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Engine/EngineTypes.h"
 #include "GameFramework/Actor.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 AOriginCharacter::AOriginCharacter()
@@ -66,10 +67,11 @@ void AOriginCharacter::Tick(float DeltaTime)
 			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
-	}
+	}	
 
 	//¼àÌýÒÆ¶¯,ÒÆËÙÎª600.0
 	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, GetTransform().ToString());
+	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::Red, GetMesh()->GetRelativeRotation().ToString());
 
 	FVector Direction1(1, 0, 0);
 	AddActorLocalOffset(Direction1 * DeltaTime * SyncEastValue * MaxWalkSpeed, true);
@@ -96,5 +98,18 @@ void AOriginCharacter::MoveEast(float value)
 void AOriginCharacter::MoveNorth(float value)
 {
 	NorthValue = value;
+}
+
+float AOriginCharacter::GetMeshRotation()
+{
+	if (APlayerController* PC = Cast<APlayerController>(GetController())) {
+		FHitResult TraceHitResult;
+		PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
+		FRotator r = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TraceHitResult.Location);
+
+		return r.Yaw - 90.0;
+	}
+
+	return -90.0;
 }
 

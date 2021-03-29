@@ -55,4 +55,7 @@ public:
 	//角色移动
 	void MoveEast(float);
 	void MoveNorth(float);
+
+	//获取玩家对于鼠标的朝向（旋转）
+	float GetMeshRotation();
 };

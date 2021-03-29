@@ -16,7 +16,7 @@
 void AGameLevelScriptActor::BeginPlay()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
+	
 	Super::BeginPlay();
 
 	//建立udp发送
@@ -62,6 +62,7 @@ void AGameLevelScriptActor::BeginPlay()
 	}
 
 	GetWorld()->GetFirstPlayerController()->Possess(players[myPlayerId]);
+	GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 
 	//todo:发送帧0，通知udp地址
 	SendFrame();
@@ -88,15 +89,14 @@ void AGameLevelScriptActor::SendFrame()
 	A.set_playerid(myPlayerId);
 	A.set_roomid(roomId);
 
-	//收集当前帧该玩家的移动操作
+	//收集当前帧该玩家的移动操作和朝向
 	AOriginCharacter* myPlayer = players[GInstance->myPlayerId];
 	msg::OptionEvent *moveOpts = A.add_opts();
 	moveOpts->set_playerid(myPlayerId);
 	moveOpts->set_opttype(msg::OptionType::MoveId);
 	moveOpts->set_eastvalue(myPlayer->EastValue);
 	moveOpts->set_northvalue(myPlayer->NorthValue);
-	
-	//
+	moveOpts->set_charrotattion(myPlayer->GetMeshRotation());
 
 	std::string a = A.SerializeAsString();
 	int32 msglen = a.length();
@@ -192,11 +192,13 @@ void AGameLevelScriptActor::SyncLastFrame(const class msg::FrameOpts& data)
 				AOriginCharacter* tmpPlayer = players[opt.playerid()];
 				
 				if (data.frameid() > 0) {
+					//同步位置
 					tmpPlayer->SetActorTransform(tmpPlayer->logicTransform);
-
 					FVector MoveDir = EastDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.eastvalue() + NorthDirection * logicDeltatime * tmpPlayer->MaxWalkSpeed * opt.northvalue();
 					tmpPlayer->AddActorLocalOffset(MoveDir, true);
 					tmpPlayer->logicTransform = tmpPlayer->GetTransform();
+					//同步旋转
+					tmpPlayer->GetMesh()->SetRelativeRotation(FRotator(0, opt.charrotattion(), 0));
 				}
 				else {
 					tmpPlayer->logicTransform = tmpPlayer->GetTransform();
@@ -234,7 +236,7 @@ void AGameLevelScriptActor::JumpFrame(const class msg::FrameOpts& data)
 		msg::OptionEvent opt = data.opts(i);
 		switch (opt.opttype()) {
 		case msg::OptionType::MoveId:
-			//对角色的移动进行同步
+			//对角色的移动进行同步，跳帧不需要旋转
 			FVector EastDirection(1, 0, 0);
 			FVector NorthDirection(0, -1, 0);
 			FVector DownDirection(0, 0, -1);

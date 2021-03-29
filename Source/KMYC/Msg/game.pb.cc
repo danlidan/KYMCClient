@@ -179,6 +179,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::OptionEvent, opttype_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::OptionEvent, eastvalue_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::OptionEvent, northvalue_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::OptionEvent, charrotattion_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::msg::FrameOpts, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -206,9 +207,9 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::msg::Frame)},
   { 6, -1, sizeof(::msg::OptionEvent)},
-  { 15, -1, sizeof(::msg::FrameOpts)},
-  { 22, -1, sizeof(::msg::LogicFrame)},
-  { 29, -1, sizeof(::msg::NextFrameOpts)},
+  { 16, -1, sizeof(::msg::FrameOpts)},
+  { 23, -1, sizeof(::msg::LogicFrame)},
+  { 30, -1, sizeof(::msg::NextFrameOpts)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -242,18 +243,18 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\ngame.proto\022\003msg\"\031\n\005Frame\022\020\n\010testInfo\030\001"
-      " \001(\t\"W\n\013OptionEvent\022\020\n\010playerId\030\001 \001(\005\022\017\n"
+      " \001(\t\"n\n\013OptionEvent\022\020\n\010playerId\030\001 \001(\005\022\017\n"
       "\007optType\030\002 \001(\005\022\021\n\teastValue\030\003 \001(\002\022\022\n\nnor"
-      "thValue\030\004 \001(\002\"<\n\tFrameOpts\022\017\n\007frameId\030\001 "
-      "\001(\005\022\036\n\004opts\030\002 \003(\0132\020.msg.OptionEvent\"C\n\nL"
-      "ogicFrame\022\017\n\007frameId\030\001 \001(\005\022$\n\014unsyncFram"
-      "es\030\002 \003(\0132\016.msg.FrameOpts\"b\n\rNextFrameOpt"
-      "s\022\017\n\007frameId\030\001 \001(\005\022\016\n\006roomId\030\002 \001(\005\022\020\n\010pl"
-      "ayerId\030\003 \001(\005\022\036\n\004opts\030\004 \003(\0132\020.msg.OptionE"
-      "ventb\006proto3"
+      "thValue\030\004 \001(\002\022\025\n\rcharRotattion\030\005 \001(\002\"<\n\t"
+      "FrameOpts\022\017\n\007frameId\030\001 \001(\005\022\036\n\004opts\030\002 \003(\013"
+      "2\020.msg.OptionEvent\"C\n\nLogicFrame\022\017\n\007fram"
+      "eId\030\001 \001(\005\022$\n\014unsyncFrames\030\002 \003(\0132\016.msg.Fr"
+      "ameOpts\"b\n\rNextFrameOpts\022\017\n\007frameId\030\001 \001("
+      "\005\022\016\n\006roomId\030\002 \001(\005\022\020\n\010playerId\030\003 \001(\005\022\036\n\004o"
+      "pts\030\004 \003(\0132\020.msg.OptionEventb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 372);
+      descriptor, 395);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "game.proto", &protobuf_RegisterTypes);
 }
@@ -536,6 +537,7 @@ const int OptionEvent::kPlayerIdFieldNumber;
 const int OptionEvent::kOptTypeFieldNumber;
 const int OptionEvent::kEastValueFieldNumber;
 const int OptionEvent::kNorthValueFieldNumber;
+const int OptionEvent::kCharRotattionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 OptionEvent::OptionEvent()
@@ -552,15 +554,15 @@ OptionEvent::OptionEvent(const OptionEvent& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&playerid_, &from.playerid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&northvalue_) -
-    reinterpret_cast<char*>(&playerid_)) + sizeof(northvalue_));
+    static_cast<size_t>(reinterpret_cast<char*>(&charrotattion_) -
+    reinterpret_cast<char*>(&playerid_)) + sizeof(charrotattion_));
   // @@protoc_insertion_point(copy_constructor:msg.OptionEvent)
 }
 
 void OptionEvent::SharedCtor() {
   ::memset(&playerid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&northvalue_) -
-      reinterpret_cast<char*>(&playerid_)) + sizeof(northvalue_));
+      reinterpret_cast<char*>(&charrotattion_) -
+      reinterpret_cast<char*>(&playerid_)) + sizeof(charrotattion_));
   _cached_size_ = 0;
 }
 
@@ -602,8 +604,8 @@ void OptionEvent::Clear() {
   (void) cached_has_bits;
 
   ::memset(&playerid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&northvalue_) -
-      reinterpret_cast<char*>(&playerid_)) + sizeof(northvalue_));
+      reinterpret_cast<char*>(&charrotattion_) -
+      reinterpret_cast<char*>(&playerid_)) + sizeof(charrotattion_));
   _internal_metadata_.Clear();
 }
 
@@ -673,6 +675,20 @@ bool OptionEvent::MergePartialFromCodedStream(
         break;
       }
 
+      // float charRotattion = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(45u /* 45 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &charrotattion_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -719,6 +735,11 @@ void OptionEvent::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->northvalue(), output);
   }
 
+  // float charRotattion = 5;
+  if (this->charrotattion() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->charrotattion(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -751,6 +772,11 @@ void OptionEvent::SerializeWithCachedSizes(
   // float northValue = 4;
   if (this->northvalue() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->northvalue(), target);
+  }
+
+  // float charRotattion = 5;
+  if (this->charrotattion() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->charrotattion(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -791,6 +817,11 @@ size_t OptionEvent::ByteSizeLong() const {
 
   // float northValue = 4;
   if (this->northvalue() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float charRotattion = 5;
+  if (this->charrotattion() != 0) {
     total_size += 1 + 4;
   }
 
@@ -835,6 +866,9 @@ void OptionEvent::MergeFrom(const OptionEvent& from) {
   if (from.northvalue() != 0) {
     set_northvalue(from.northvalue());
   }
+  if (from.charrotattion() != 0) {
+    set_charrotattion(from.charrotattion());
+  }
 }
 
 void OptionEvent::CopyFrom(const ::google::protobuf::Message& from) {
@@ -865,6 +899,7 @@ void OptionEvent::InternalSwap(OptionEvent* other) {
   swap(opttype_, other->opttype_);
   swap(eastvalue_, other->eastvalue_);
   swap(northvalue_, other->northvalue_);
+  swap(charrotattion_, other->charrotattion_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
